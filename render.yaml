@@ -1,0 +1,35 @@
+services:
+  - type: worker          # background worker — no HTTP port needed
+    name: gcal-telegram-agent
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      # ── Required ──────────────────────────────────────────────────────────
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false          # fill in the Render dashboard
+
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+
+      - key: GOOGLE_SERVICE_ACCOUNT_JSON
+        sync: false          # paste the full JSON (or base64 of it)
+
+      # ── Optional (override defaults) ──────────────────────────────────────
+      - key: AUTH_MODE
+        value: service_account   # or "oauth" for local dev
+
+      - key: CALENDAR_ID
+        value: primary            # or a specific calendar email
+
+      - key: POLL_INTERVAL_SECONDS
+        value: "60"
+
+      - key: REMINDER_MINUTES_AHEAD
+        value: "30"
+
+      - key: CLOSE_REMINDER_MINUTES
+        value: "10"
+
+      - key: MORNING_DIGEST_HOUR
+        value: "8"
